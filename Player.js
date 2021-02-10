@@ -10,6 +10,16 @@ function isFaceCard(card) {
   }
   return false;
 }
+
+function hasAtLeastOneFaceCard (ourTeam) {
+  return ourTeam && ourTeam.hole_cards.some(function (c) { return isFaceCard(c) })
+}
+
+function hasAllFaceCards (ourTeam) {
+  return ourTeam && ourTeam.hole_cards.every(function (c) { return isFaceCard(c) })
+}
+
+
 class Player {
   static ofSameSuit(cardA, cardB) {
     if (cardA.suit === cardB.suit) {
@@ -33,7 +43,10 @@ class Player {
     }
     
     const ourTeam = players.find(function (p) { return p.name === 'Fish Tank' });
-    if (ourTeam && ourTeam.hole_cards.some(function (c) { return isFaceCard(c) })) {
+    if(hasAllFaceCards(ourTeam)){
+      bet(1000);
+    }
+    else if (hasAtLeastOneFaceCard(ourTeam)) {
       const max = players.reduce(function (previous, player) {
         return Math.max(previous, player.bet);
       }, 0);

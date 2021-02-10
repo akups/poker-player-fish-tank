@@ -8,7 +8,8 @@ describe('Player', () => {
           {
             'name': 'Fish Tank',
             hole_cards: [
-              {rank: 'A', suit: 'spades'}
+              {rank: 'A', suit: 'spades'},
+              {rank: '2', suit: 'spades'},
             ],
             bet: 0
           },
@@ -27,6 +28,35 @@ describe('Player', () => {
       Player.betRequest(gameState, bet);
 
       expect(bet).toHaveBeenCalledWith(105);
+
+    });
+
+    it('should bet when all are face cards', () => {
+      const gameState = {
+        players: [
+          {
+            'name': 'Fish Tank',
+            hole_cards: [
+              {rank: 'A', suit: 'spades'},
+              {rank: 'Q', suit: 'spades'},
+            ],
+            bet: 0
+          },
+          {
+            'name': 'Team A',
+            hole_cards: [
+              {rank: 'A', suit: 'spades'}
+            ],
+            bet: 5
+          }
+        ]
+      }
+
+      const bet = jest.fn();
+
+      Player.betRequest(gameState, bet);
+
+      expect(bet).toHaveBeenCalledWith(1000);
 
     });
 
