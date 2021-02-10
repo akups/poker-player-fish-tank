@@ -1,3 +1,5 @@
+const OUR_TEAM_NAME = 'Fish Tank';
+
 function convertToNumber(card) {
   switch (card.rank.toLowerCase()) {
     case 'a':
@@ -41,6 +43,9 @@ function hasAnAce (ourTeam) {
 function betMax(gameState) {
   const players = gameState.players
   const max = players.reduce(function (previous, player) {
+    if (player.name === OUR_TEAM_NAME) {
+      return previous
+    }
     return Math.max(previous, player.bet);
   }, 0);
   return max + gameState.big_blind;
@@ -104,7 +109,8 @@ class Player {
       return
     }
 
-    const ourTeam = players.find(function (p) { return p.name === 'Fish Tank' });
+    const ourTeam = players.find(function (p) {
+      return p.name === OUR_TEAM_NAME });
 
     for(let i = 0; i < rules.length; i++){
       const rule = rules[i];
