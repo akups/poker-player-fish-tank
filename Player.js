@@ -50,6 +50,16 @@ function hasAllFaceCards (ourTeam) {
   return ourTeam && ourTeam.hole_cards.every(function (c) { return isFaceCard(c) })
 }
 
+function isAPair (ourTeam) {
+  return ourTeam && ourTeam.hole_cards.length === 2 && ourTeam.hole_cards[0].rank === ourTeam.hole_cards[1].rank;
+}
+
+function betMax(players) {
+  const max = players.reduce(function (previous, player) {
+    return Math.max(previous, player.bet);
+  }, 0);
+  return max + 100;
+}
 
 const rules = [
   {
@@ -60,18 +70,13 @@ const rules = [
   {
     name: 'at least one face with a big number',
     conditions: [hasAtLeastOneFaceCard, hasAtLeastOneBigCard],
-    getBet: function(players) {
-      const max = players.reduce(function (previous, player) {
-        return Math.max(previous, player.bet);
-      }, 0);
-      return max + 100;
-    },
+    getBet: betMax,
   },
-  // {
-  //   name: 'a pair of same values',
-  //   conditions: [],
-  //   getBet: function () {return 0},
-  // },  
+  {
+    name: 'a pair of same values',
+    conditions: [isAPair],
+    getBet: betMax,
+  },  
   {
     name: 'default: just fold',
     conditions: [function (){return true}],

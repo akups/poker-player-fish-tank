@@ -31,6 +31,35 @@ describe('Player', () => {
 
     });
 
+    it('should bet when a face card with a big card exist', () => {
+      const gameState = {
+        players: [
+          {
+            'name': 'Fish Tank',
+            hole_cards: [
+              {rank: '5', suit: 'diamonds'},
+              {rank: '5', suit: 'spades'},
+            ],
+            bet: 0
+          },
+          {
+            'name': 'Team A',
+            hole_cards: [
+              {rank: 'A', suit: 'spades'}
+            ],
+            bet: 5
+          }
+        ]
+      }
+
+      const bet = jest.fn();
+
+      Player.betRequest(gameState, bet);
+
+      expect(bet).toHaveBeenCalledWith(105);
+
+    });
+
     it('should not bet when a face card with a lower card exist', () => {
       const gameState = {
         players: [
