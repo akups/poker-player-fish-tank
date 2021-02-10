@@ -55,22 +55,27 @@ const rules = [
   {
     name: 'all faces',
     conditions: [hasAllFaceCards],
-    getBet: () => 1000,
+    getBet: function(){return 1000},
   },
   {
     name: 'at least one face with a big number',
     conditions: [hasAtLeastOneFaceCard, hasAtLeastOneBigCard],
-    getBet: (players) => {
+    getBet: function(players) {
       const max = players.reduce(function (previous, player) {
         return Math.max(previous, player.bet);
       }, 0);
       return max + 100;
     },
   },
+  // {
+  //   name: 'a pair of same values',
+  //   conditions: [],
+  //   getBet: function () {return 0},
+  // },  
   {
     name: 'default: just fold',
-    conditions: [() => true],
-    getBet: () => 0,
+    conditions: [function (){return true}],
+    getBet: function () {return 0},
   }
 ]
 
@@ -100,7 +105,7 @@ class Player {
 
     for(let i = 0; i < rules.length; i++){
       const rule = rules[i];
-      if(rule.conditions.every(c => c(ourTeam))){
+      if(rule.conditions.every(function (c) {return c(ourTeam)})){
         bet(rule.getBet(players));
         return;
       }
