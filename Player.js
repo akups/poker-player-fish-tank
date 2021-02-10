@@ -5,7 +5,7 @@ class Player {
 
   static betRequest(gameState, bet) {
 
-    bet(100);
+    bet(500);
   }
 
   static showdown(gameState) {
