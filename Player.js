@@ -14,6 +14,11 @@ class Player {
   static get VERSION() {
     return '0.1';
   }
+
+  /**
+   * @param gameState {import('./GameState').GameState}
+   * @param bet
+   */
   static betRequest(gameState, bet) {
     const players = gameState.players;
     if (players) {
