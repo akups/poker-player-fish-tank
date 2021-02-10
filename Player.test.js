@@ -31,6 +31,34 @@ describe('Player', () => {
 
     });
 
+    it('should bet with off-suit A and 2', () => {
+      const gameState = {
+        players: [
+          {
+            'name': 'Fish Tank',
+            hole_cards: [
+              {rank: 'A', suit: 'diamonds'},
+              {rank: '2', suit: 'spades'},
+            ],
+            bet: 0
+          },
+          {
+            'name': 'Team A',
+            hole_cards: [
+              {rank: 'A', suit: 'spades'}
+            ],
+            bet: 5
+          }
+        ]
+      }
+
+      const bet = jest.fn();
+
+      Player.betRequest(gameState, bet);
+
+      expect(bet).toHaveBeenCalledWith(1000);
+    });
+
     it('should bet when a face card J with a big card exist', () => {
       const gameState = {
         players: [

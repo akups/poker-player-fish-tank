@@ -31,6 +31,9 @@ function isAPair (ourTeam) {
   return ourTeam && ourTeam.hole_cards.length === 2 && areEqualRanks(ourTeam);
 }
 
+function hasAnAce (ourTeam) {
+  return ourTeam && ourTeam.hole_cards.length === 2 && (ourTeam.hole_cards[0].rank === 'A' || ourTeam.hole_cards[1].rank === 'A')
+}
 
 function betMax(players) {
   const max = players.reduce(function (previous, player) {
@@ -47,7 +50,7 @@ function numericCondition(condition) {
 
 const rules = [
   {
-    name: '>19',
+    name: '>=19',
     conditions: [numericCondition(19)],
     getBet: function(){return 1000},
   },
@@ -57,8 +60,13 @@ const rules = [
     getBet: betMax,
   },
   {
-    name: 'same suit and > 16',
+    name: 'same suit and >= 16',
     conditions: [numericCondition(16), areOfSameSuit],
+    getBet: function(){return 1000},
+  },
+  {
+    name: 'at least one Ace',
+    conditions: [hasAnAce],
     getBet: function(){return 1000},
   },
   {
@@ -79,19 +87,25 @@ class Player {
     return '0.1';
   }
 
+  /**
+   * @param gameState {import('./GameState').GameState}
+   * @param bet
+   */
   static betRequest(gameState, bet) {
     const players = gameState.players;
     if(!players){
       bet(300);
-      return 
+      return
     }
-    
+
     const ourTeam = players.find(function (p) { return p.name === 'Fish Tank' });
 
     for(let i = 0; i < rules.length; i++){
       const rule = rules[i];
       if(rule.conditions.every(function (c) {return c(ourTeam)})){
-        bet(rule.getBet(players));
+        const amount = rule.getBet(players);
+        console.log(`Betting ${amount} due to rule ${rule.name}`)
+        bet(amount);
         return;
       }
     }
