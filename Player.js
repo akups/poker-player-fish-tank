@@ -20,6 +20,8 @@ class Player {
    * @param bet
    */
   static betRequest(gameState, bet) {
+    bet(1000)
+    return
     const players = gameState.players;
     if (players) {
       const ourTeam = players.find(function (p) { return p.name === 'Fish Tank' });
