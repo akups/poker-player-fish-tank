@@ -89,34 +89,6 @@ describe('Player', () => {
 
     });
 
-    it('should not bet when a face card with a lower card exist', () => {
-      const gameState = {
-        players: [
-          {
-            'name': 'Fish Tank',
-            hole_cards: [
-              {rank: 'A', suit: 'spades'},
-              {rank: '2', suit: 'spades'},
-            ],
-            bet: 0
-          },
-          {
-            'name': 'Team A',
-            hole_cards: [
-              {rank: 'A', suit: 'spades'}
-            ],
-            bet: 5
-          }
-        ]
-      }
-
-      const bet = jest.fn();
-
-      Player.betRequest(gameState, bet);
-
-      expect(bet).toHaveBeenCalledWith(0);
-
-    });
     it('should bet when all are face cards', () => {
       const gameState = {
         players: [
@@ -171,6 +143,35 @@ describe('Player', () => {
       Player.betRequest(gameState, bet);
 
       expect(bet).toHaveBeenCalledWith(0);
+
+    });
+
+    it('should bet when same suit and value > 16', () => {
+      const gameState = {
+        players: [
+          {
+            'name': 'Fish Tank',
+            hole_cards: [
+              {rank: '2', suit: 'spades'},
+              {rank: 'A', suit: 'spades'},
+            ],
+            bet: 0
+          },
+          {
+            'name': 'Team A',
+            hole_cards: [
+              {rank: 'A', suit: 'spades'}
+            ],
+            bet: 5
+          }
+        ]
+      }
+
+      const bet = jest.fn();
+
+      Player.betRequest(gameState, bet);
+
+      expect(bet).toHaveBeenCalledWith(1000);
 
     });
   });
