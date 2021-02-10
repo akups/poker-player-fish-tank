@@ -4,8 +4,17 @@ class Player {
   }
 
   static betRequest(gameState, bet) {
-
-    bet(400);
+    const players = gameState.players;
+    if(players){
+      const max = players.reduce((previous, player
+        ) => {
+        return Math.max(previous, player.bet);
+      }, 0);
+      bet(max + 100);
+    }else{
+      bet(400);
+    }
+    
   }
 
   static showdown(gameState) {
