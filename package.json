@@ -7,8 +7,13 @@
   },
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "body-parser": "^1.19.0",
     "express": "4.x"
+=======
+    "express": "4.x",
+    "body-parser": "1.15.2"
+>>>>>>> 8b96f37c94a9e9132f262dcf40cecda419cbdc0d
   },
   "scripts": {
     "test": "jest"
