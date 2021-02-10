@@ -4,6 +4,7 @@ class Player {
   }
 
   static betRequest(gameState, bet) {
+    console.log('Hello')
     const players = gameState.players;
     if(players){
       const max = players.reduce((previous, player
