@@ -35,11 +35,15 @@ function hasAnAce (ourTeam) {
   return ourTeam && ourTeam.hole_cards.length === 2 && (ourTeam.hole_cards[0].rank === 'A' || ourTeam.hole_cards[1].rank === 'A')
 }
 
-function betMax(players) {
+/**
+ * @param gameState {import('./GameState').GameState}
+*/
+function betMax(gameState) {
+  const players = gameState.players
   const max = players.reduce(function (previous, player) {
     return Math.max(previous, player.bet);
   }, 0);
-  return max + 100;
+  return max + gameState.big_blind;
 }
 
 function numericCondition(condition) {
@@ -48,11 +52,13 @@ function numericCondition(condition) {
   }
 }
 
+function fold() {return 0;}
+
 const rules = [
   {
     name: '>=19',
     conditions: [numericCondition(19)],
-    getBet: function(){return 1000},
+    getBet: betMax,
   },
   {
     name: 'a pair of same values',
@@ -62,17 +68,17 @@ const rules = [
   {
     name: 'same suit and >= 16',
     conditions: [numericCondition(16), areOfSameSuit],
-    getBet: function(){return 1000},
+    getBet: betMax,
   },
   {
     name: 'at least one Ace',
     conditions: [hasAnAce],
-    getBet: function(){return 1000},
+    getBet: betMax,
   },
   {
     name: 'default: just fold',
     conditions: [function (){return true}],
-    getBet: function () {return 0},
+    getBet: fold,
   }
 ];
 
@@ -103,7 +109,7 @@ class Player {
     for(let i = 0; i < rules.length; i++){
       const rule = rules[i];
       if(rule.conditions.every(function (c) {return c(ourTeam)})){
-        const amount = rule.getBet(players);
+        const amount = rule.getBet(gameState);
         console.log(`Betting ${amount} due to rule ${rule.name}`)
         bet(amount);
         return;
