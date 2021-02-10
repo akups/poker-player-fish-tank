@@ -62,7 +62,7 @@ function fold() {return 0;}
 const rules = [
   {
     name: '>=19',
-    conditions: [numericCondition(19)],
+    conditions: [numericCondition(22)],
     getBet: betMax,
   },
   {
@@ -72,7 +72,7 @@ const rules = [
   },
   {
     name: 'same suit and >= 16',
-    conditions: [numericCondition(16), areOfSameSuit],
+    conditions: [numericCondition(19), areOfSameSuit],
     getBet: betMax,
   },
   {
