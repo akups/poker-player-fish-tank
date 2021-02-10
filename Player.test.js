@@ -1,5 +1,4 @@
 const Player = require('./Player');
-<<<<<<< HEAD
 
 describe('Player', () => {
   describe('betRequest', () => {
@@ -59,16 +58,4 @@ describe('Player', () => {
 
     });
   });
-
-=======
-describe('Player', () => {
-  describe('betRequest', () => {
-    it('calls bet', () => {
-      const betMock = jest.fn()
-      const gameState = {}
-      Player.betRequest(gameState, betMock)
-      expect(betMock).toHaveBeenCalled()
-    });
-  });
->>>>>>> 8b96f37c94a9e9132f262dcf40cecda419cbdc0d
 });
