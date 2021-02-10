@@ -2,7 +2,7 @@ const Player = require('./Player');
 
 describe('Player', () => {
   describe('betRequest', () => {
-    it('should bet when a face card with a big card exist', () => {
+    it('should bet when a face card A with a big card exist', () => {
       const gameState = {
         players: [
           {
@@ -27,7 +27,36 @@ describe('Player', () => {
 
       Player.betRequest(gameState, bet);
 
-      expect(bet).toHaveBeenCalledWith(105);
+      expect(bet).toHaveBeenCalledWith(1000);
+
+    });
+
+    it('should bet when a face card J with a big card exist', () => {
+      const gameState = {
+        players: [
+          {
+            'name': 'Fish Tank',
+            hole_cards: [
+              {rank: 'J', suit: 'spades'},
+              {rank: '10', suit: 'spades'},
+            ],
+            bet: 0
+          },
+          {
+            'name': 'Team A',
+            hole_cards: [
+              {rank: 'A', suit: 'spades'}
+            ],
+            bet: 5
+          }
+        ]
+      }
+
+      const bet = jest.fn();
+
+      Player.betRequest(gameState, bet);
+
+      expect(bet).toHaveBeenCalledWith(1000);
 
     });
 
